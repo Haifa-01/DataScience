@@ -1,0 +1,82 @@
+---
+title: "tidy"
+output: html_document
+date: "2023-02-14"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(tidyverse)
+
+```
+```{r}
+mn_homes <- read_csv("Data/mn_homes.csv")
+glimpse(mn_homes)
+
+```
+
+##First Graph 
+We usually use ggplot function to draw plots, it has several components as the following:
+1- data: Here we specify the dataFrame that we'll use 
+2- mapping: Here you specify the x-axis and y-axis 
+3- Add drawing component
+4- Add lables to the graph
+5- Faceting (having different graphs based on different values of a specific variable)
+```{r}
+ggplot(data=mn_homes, mapping=aes(x=area, y=salesprice)) + geom_point()
+```
+As we see above, geom_point() represents each record in the dataframe
+with a point in the plot. It usually helps to detect outliers.There are different types of drawing. For example, we can use geom_smooth()
+to represent the relation between two variables with a curved 1ine as you can see below:
+
+```{r}
+ggplot(data=mn_homes, mapping=aes(x=area, y=salesprice)) + geom_smooth() + geom_point()
+```
+As we see that we're able to combine two function of geom() to see the graph
+
+##aes()
+aes() method also allows us to change some visual properties in the plot including: shape, color, size, and transparency, for example, we can change the color of the points in the plot based on another variable (such as fireplace, beds, baths)
+```{r}
+ggplot(data=mn_homes, mapping=aes(x=area, y=salesprice, color=beds, shape=fireplace)) + geom_point()
+```
+We can also add lables to the graph using the labs() methods as the following: 
+```{r}
+ggplot(data=mn_homes, mapping=aes(x=area, y=salesprice, color=fireplace)) +geom_point() + labs(title="sales price VS area of homes in Minneapolis, MN", x="Area (square feet)", y="Sales Price (dollars)")
+```
+
+```{r}
+ggplot(data=mn_homes, mapping=aes(x=area, y=salesprice, color=lotsize, size=fireplace)) + geom_point() + labs(title="sales price VS area of homes in Minneapolis, MN", x="Area (square feet)", y="Sales Price (dollars)")
+```
+
+##Faceting 
+We can also have different graphs based on different values of a
+specific variable. For example, if we want make a similar graph to what
+we have above but for each community (community is a variable in our
+dataFrame), we can do the following:
+```{r}
+ggplot(data=mn_homes, mapping=aes(x=area, y=salesprice, color=fireplace)) + geom_point() + labs(title="Sales price VS area of homes in Minneapolis, MN", x="Area (square feet)", y="Sales Price (dollars)") + facet_wrap(~community, nrow=2)
+```
+
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
