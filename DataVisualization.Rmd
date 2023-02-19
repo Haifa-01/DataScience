@@ -1,6 +1,9 @@
 ---
-title: "tidy"
-output: html_document
+title: "dataVisulization"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
 date: "2023-02-14"
 ---
 
@@ -59,6 +62,30 @@ dataFrame), we can do the following:
 ggplot(data=mn_homes, mapping=aes(x=area, y=salesprice, color=fireplace)) + geom_point() + labs(title="Sales price VS area of homes in Minneapolis, MN", x="Area (square feet)", y="Sales Price (dollars)") + facet_wrap(~community, nrow=2)
 ```
 
+Another type of plotting is the bar plot.it's use to visualize categorical variables 
+```{r}
+ggplot(data=mn_homes, mapping=aes(x=community, y=..prop..,group=1)) + geom_bar()
+```
+
+we can also color the bars using some variables as the following 
+```{r}
+ggplot(data=mn_homes, mapping=aes(x=community, fill=fireplace)) + geom_bar()
+```
+
+sometimes, we prefer to add the mapping parameter to the geom_chart function and not in the ggplot function, also we can use the coord_flip method to swap between the horizontal and the vertical coordinates if needed 
+```{r}
+ggplot(data=mn_homes) + geom_bar(mapping=aes(x=community, fill=fireplace), position="dodge") + coord_flip()
+```
+
+As we used bar chart for categorical variables, we can use histogram charts for continues variables as the following:
+```{r}
+ggplot(data=mn_homes, mapping=aes(x=salesprice)) + geom_histogram(bins=10)
+```
+
+Boxplot charts are used also to represent numerical variables' distribution across levels of a categorical variables. For example, in the chart below, we will show the distribution of houses' prices across different communities.
+```{r}
+ggplot(data=mn_homes, mapping=aes(x=community, y=salesprice)) + geom_boxplot() + coord_flip()
+```
 
 
 ## R Markdown
